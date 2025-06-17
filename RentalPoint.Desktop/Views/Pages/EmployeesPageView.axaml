@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:RentalPoint.Desktop.ViewModels.Pages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RentalPoint.Desktop.Views.Pages.EmployeesPageView"
+             x:DataType="pages:EmployeesPageViewModel">
+    
+<Design.DataContext>
+        <pages:EmployeesPageViewModel/>
+</Design.DataContext>
+
+<Grid Background="Transparent"
+      Margin="5" Name="UserGrid">
+        <DataGrid Grid.Column="0" x:Name="UserList"
+                          ItemsSource="{Binding Employees}" Margin="10">
+                <DataGrid.Columns>
+                        <DataGridTextColumn IsReadOnly="True" Header="Имя" Binding="{Binding FName}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Фамилия" Binding="{Binding SName}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Отчество" Binding="{Binding LName}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Должность" Binding="{Binding Role.Value}"/>
+                        <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                                <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                        Background="Transparent"
+                                                        Command="{Binding #UserList.((pages:EmployeesPageViewModel)DataContext).DeactivateEmployee}" 
+                                                        CommandParameter="{Binding }"
+                                                        CornerRadius="50">
+                                                        <Image Height="15" Width="15" Source="/Assets/delete.png"/>
+                                                </Button>
+                                        </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                </DataGrid.Columns>
+        </DataGrid>
+        
+        <StackPanel Grid.Column="1">
+                <TextBlock Text="Добавить сотрудника" Margin="5" FontSize="36" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox Watermark="Логин" Text="{Binding NewEmployee.Login}" 
+                         Margin="5" HorizontalAlignment="Stretch"/>
+                <TextBox Watermark="Пароль" Text="{Binding Password}" 
+                         Margin="5" HorizontalAlignment="Stretch"/>
+                <TextBox Watermark="Имя" Text="{Binding NewEmployee.FName}" 
+                         Margin="5" HorizontalAlignment="Stretch"/>
+                <TextBox Watermark="Фамилия" Text="{Binding NewEmployee.SName}" 
+                         Margin="5" HorizontalAlignment="Stretch"/>
+                <TextBox Watermark="Отчество" Text="{Binding NewEmployee.LName}" 
+                         Margin="5" HorizontalAlignment="Stretch"/>
+                <TextBox Watermark="Номер телефона" Text="{Binding NewEmployee.PhoneNumber}" 
+                         Margin="5" HorizontalAlignment="Stretch"/>
+                <TextBlock Text="Выберите должность: " Margin="5" FontSize="14" 
+                           HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <ListBox ItemsSource="{Binding Posts}"
+                         SelectedItem="{Binding NewEmployee.Role}"
+                         SelectionMode="Single">
+                        <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                        <TextBlock Text="{Binding Value}" Padding="5"/>
+                                </DataTemplate>
+                        </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Content="Добавить"
+                        Command="{Binding AddEmployee}"
+                        HorizontalAlignment="Center"
+                        Background="DarkOrange"/>
+        </StackPanel>
+        
+        <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+</Grid>
+</UserControl>

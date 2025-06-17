@@ -15,5 +15,8 @@ public class Employee
     public string? LName { get; set; }
     
     public string PhoneNumber { get; set; }
-    public bool IsActive { get; set; }
+
+    public bool IsActive { get; set; } = true;
+    
+    public DictionaryValue Role { get; set; }
 }

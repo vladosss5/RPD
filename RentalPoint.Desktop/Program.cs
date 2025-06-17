@@ -21,7 +21,6 @@ sealed class Program
     public static AppBuilder BuildAvaloniaApp()
     {
         var services = new ServiceCollection();
-        ConfigureServices(services);
         ServiceProvider = services.BuildServiceProvider();
 
         return AppBuilder.Configure<App>()
@@ -29,24 +28,5 @@ sealed class Program
             .WithInterFont()
             .LogToTrace()
             .UseReactiveUI();
-    }
-
-    private static void ConfigureServices(IServiceCollection services)
-    {
-        var currentDirectory = Directory.GetCurrentDirectory();
-        var dbPath = currentDirectory.Replace(
-            @"\RentalPoint.Desktop\bin\Debug\net9.0", 
-            @"\RentalPoint.Data\DataBase.sqlite");
-        
-        // Регистрация сервисов
-        services.AddDbContext<DataContext>(options => 
-            options.UseSqlite($"Data Source={dbPath};"));
-        
-    
-        // Регистрация ViewModels
-        services.AddTransient<MainWindowViewModel>();
-    
-        // Регистрация окон
-        services.AddTransient<MainWindow>();
     }
 }

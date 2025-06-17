@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using RentalPoint.Desktop.ViewModels.Pages;
 
 namespace RentalPoint.Desktop.ViewModels;
 
@@ -10,17 +12,30 @@ public class MainWindowViewModel : ViewModelBase
     
     [Reactive] public PageViewModelBase SelectedPageItem { get; set; }
     
-    public ICommand OpenOrderPage { get; }
-    public ICommand OpenInventoryPage { get; }
-    public ICommand OpenEmployeePage { get; }
+    public ICommand OpenOrderPage { get; private set; }
+    public ICommand OpenInventoryPage { get; private set; }
+    public ICommand OpenEmployeePage { get; private set; }
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(
+        EmployeesPageViewModel employeesPageViewModel)
     {
+        PaneItems =
+        [
+            employeesPageViewModel
+        ];
+        SelectedPageItem = PaneItems[0];
+        
         InitialButtons();
     }
 
     private void InitialButtons()
     {
-        throw new System.NotImplementedException();
+        OpenOrderPage = ReactiveCommand.Create(OpenOrderPageImpl);
+        OpenInventoryPage = ReactiveCommand.Create(OpenInventoryPageImpl);
+        OpenEmployeePage = ReactiveCommand.Create(OpenEmployeePageImpl);
     }
+
+    private void OpenOrderPageImpl() => SelectedPageItem = PaneItems[0];
+    private void OpenInventoryPageImpl() => SelectedPageItem = PaneItems[0];
+    private void OpenEmployeePageImpl() => SelectedPageItem = PaneItems[0];
 }

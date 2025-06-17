@@ -1,14 +1,16 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using RentalPoint.Desktop.Services.Interfaces;
 using RentalPoint.Desktop.ViewModels;
 
 namespace RentalPoint.Desktop.Views;
 
-public partial class MainWindow : Window
+public partial class AuthorizationWindow : Window
 {
-    public MainWindow(
-        IWindowService windowService, 
-        MainWindowViewModel viewModel)
+    public AuthorizationWindow(
+        AuthorizationWindowViewModel viewModel,
+        IWindowService windowService)
     {
         InitializeComponent();
         DataContext = viewModel;

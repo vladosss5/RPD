@@ -9,6 +9,10 @@ using RentalPoint.Desktop.Views;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using RentalPoint.Desktop.Services.Implementations;
+using RentalPoint.Desktop.Services.Interfaces;
+using RentalPoint.Desktop.ViewModels.Pages;
+using RentalPoint.Desktop.Views.Pages;
 
 namespace RentalPoint.Desktop;
 
@@ -29,7 +33,7 @@ public partial class App : Application
         
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+            desktop.MainWindow = _serviceProvider.GetRequiredService<AuthorizationWindow>();
         }
             
         base.OnFrameworkInitializationCompleted();
@@ -45,11 +49,18 @@ public partial class App : Application
             
         services.AddDbContext<DataContext>(options => 
             options.UseSqlite($"Data Source={dbPath}"));
-            
-        services.AddTransient<MainWindowViewModel>();
         
-        services.AddTransient<MainWindow>();
+        services.AddSingleton<IWindowService, WindowService>();
+        services.AddSingleton<IAuthorizationService, AuthorizationService>();
             
+        services.AddTransient<AuthorizationWindowViewModel>();
+        services.AddTransient<MainWindowViewModel>();
+        services.AddTransient<EmployeesPageView>();
+        
+        services.AddTransient<AuthorizationWindow>();
+        services.AddTransient<MainWindow>();
+        services.AddTransient<EmployeesPageViewModel>();    
+        
         return services.BuildServiceProvider();
     }
 
@@ -66,7 +77,6 @@ public partial class App : Application
         catch (Exception ex)
         {
             Console.WriteLine($"Ошибка миграции БД: {ex.Message}");
-            Environment.Exit(1);
         }
     }
 }
