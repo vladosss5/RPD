@@ -41,6 +41,7 @@ public partial class App : Application
 
     private static IServiceProvider ConfigureServices()
     {
+        // Сервисы
         var services = new ServiceCollection();
 
         var basePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -53,13 +54,23 @@ public partial class App : Application
         services.AddSingleton<IWindowService, WindowService>();
         services.AddSingleton<IAuthorizationService, AuthorizationService>();
             
+        // ViewModels
         services.AddTransient<AuthorizationWindowViewModel>();
         services.AddTransient<MainWindowViewModel>();
-        services.AddTransient<EmployeesPageView>();
+        services.AddTransient<EmployeesPageViewModel>();  
+        services.AddTransient<CreateOrderPageViewModel>();
+        services.AddTransient<InventoryPageViewModel>();
+        services.AddTransient<OrderInfoPageViewModel>();
+        services.AddTransient<OrderPageViewModel>();
         
+        // Views
         services.AddTransient<AuthorizationWindow>();
-        services.AddTransient<MainWindow>();
-        services.AddTransient<EmployeesPageViewModel>();    
+        services.AddTransient<MainWindow>(); 
+        services.AddTransient<EmployeesPageView>();
+        services.AddTransient<CreateOrderPageView>();
+        services.AddTransient<InventoryPageView>();
+        services.AddTransient<OrderInfoPageView>();
+        services.AddTransient<OrderPageView>();
         
         return services.BuildServiceProvider();
     }

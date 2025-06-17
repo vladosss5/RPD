@@ -1,17 +1,14 @@
-using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using ReactiveUI.Fody.Helpers;
-using RentalPoint.Data.EntityModels;
 using RentalPoint.Desktop.ViewModels.Pages;
 
 namespace RentalPoint.Desktop.Views.Pages;
 
-public partial class EmployeesPageView : UserControl
+public partial class OrderInfoPageView : UserControl
 {
-    public EmployeesPageView(
-        EmployeesPageViewModel viewModel)
+    public OrderInfoPageView(
+        OrderInfoPageViewModel viewModel)
     {
         InitializeComponent();
         DataContext = viewModel;
