@@ -10,10 +10,14 @@ namespace RentalPoint.Desktop.Views.Pages;
 
 public partial class EmployeesPageView : UserControl
 {
+    public EmployeesPageView()
+    {
+        InitializeComponent();
+    }
+    
     public EmployeesPageView(
         EmployeesPageViewModel viewModel)
     {
-        InitializeComponent();
         DataContext = viewModel;
     }
 }

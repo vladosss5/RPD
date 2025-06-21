@@ -1,7 +1,12 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace RentalPoint.Data.EntityModels;
 
 public class Inventory
 {
+    /// <summary>
+    ///     Идентификатор.
+    /// </summary>
     public string Id { get; set; }
     
     /// <summary>
@@ -43,4 +48,9 @@ public class Inventory
     ///     Описание.
     /// </summary>
     public string? Description { get; set; }
+    
+    /// <summary>
+    ///     Флаг для множественного выбора в интерфейсах.
+    /// </summary>
+    [NotMapped] public bool Selected { get; set; }
 }

@@ -9,6 +9,7 @@ using RentalPoint.Desktop.Views;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using HotAvalonia;
 using RentalPoint.Desktop.Services.Implementations;
 using RentalPoint.Desktop.Services.Interfaces;
 using RentalPoint.Desktop.ViewModels.Pages;
@@ -22,6 +23,7 @@ public partial class App : Application
 
     public override void Initialize()
     {
+        this.EnableHotReload();
         AvaloniaXamlLoader.Load(this);
     }
 

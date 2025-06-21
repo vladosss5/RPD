@@ -47,6 +47,7 @@ public class EmployeesPageViewModel : PageViewModelBase
         Employees = new ObservableCollection<Employee>(employeesList);
 
         var postsList = await _context.DictionaryValues
+            .Where(x => x.DictionaryId == "employee_roles")
             .ToListAsync();
         Posts = new ObservableCollection<DictionaryValue>(postsList);
     }

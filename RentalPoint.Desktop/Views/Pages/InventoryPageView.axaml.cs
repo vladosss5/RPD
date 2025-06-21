@@ -7,10 +7,13 @@ namespace RentalPoint.Desktop.Views.Pages;
 
 public partial class InventoryPageView : UserControl
 {
+    public InventoryPageView()
+    {
+        InitializeComponent();
+    }
     public InventoryPageView(
         InventoryPageViewModel viewModel)
     {
-        InitializeComponent();
         DataContext = viewModel;
     }
 }

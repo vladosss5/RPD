@@ -2,7 +2,72 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:RentalPoint.Desktop.ViewModels.Pages"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="RentalPoint.Desktop.Views.Pages.CreateOrderPageView">
-    Welcome to Avalonia!
+             x:Class="RentalPoint.Desktop.Views.Pages.CreateOrderPageView"
+             x:DataType="pages:CreateOrderPageViewModel">
+    
+    <Design.DataContext>
+        <pages:CreateOrderPageViewModel/>
+    </Design.DataContext>
+    
+    <Grid RowDefinitions="Auto, Auto, Auto, *">
+        <StackPanel Grid.Row="0" Margin="10">
+            <TextBlock Text="Клиент" Margin="5"/>
+            <TextBox Watermark="Имя" Text="{Binding NewClient.FName}" 
+                     Margin="5" HorizontalAlignment="Stretch"/>
+            <TextBox Watermark="Фамилия" Text="{Binding NewClient.SName}" 
+                     Margin="5" HorizontalAlignment="Stretch"/>
+            <TextBox Watermark="Отчество" Text="{Binding NewClient.LName}" 
+                     Margin="5" HorizontalAlignment="Stretch"/>
+            <TextBox Watermark="Номер телефона" Text="{Binding NewClient.PhoneNumber}" 
+                     Margin="5" HorizontalAlignment="Stretch"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Margin="10">
+            <TextBlock Text="Залог" Margin="5"/>
+            
+            <ListBox ItemsSource="{Binding DocumentTypes}"
+                     SelectedItem="{Binding Deposit.Type}"
+                     SelectionMode="Single"
+                     MaxHeight="100">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Value}" Padding="5"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <TextBox Watermark="Серия" Text="{Binding Deposit.Series}" 
+                     Margin="5" HorizontalAlignment="Stretch"/>
+            <TextBox Watermark="Номер" Text="{Binding Deposit.Number}" 
+                     Margin="5" HorizontalAlignment="Stretch"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="2" Margin="10">
+            <TextBlock Text="Инвентарь" Margin="5"/>
+            
+            <DataGrid ItemsSource="{Binding Inventories}" HorizontalAlignment="Stretch">
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="Наименование" Binding="{Binding Name}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Стоимость за час" Binding="{Binding PricePerHour}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Тип" Binding="{Binding Type.Value}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Тип" Binding="{Binding Status.Value}"/>
+                    <DataGridCheckBoxColumn Header="☑" Binding="{Binding Selected}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="3" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <CalendarDatePicker 
+                    DisplayDateStart="{Binding CurrentDateTime.Date}" 
+                    SelectedDate="{Binding Order.StartDate.Date}"/>
+                
+                <TimePicker SelectedTime="{Binding Order.StartDate.TimeOfDay}"/>
+            </StackPanel>
+            
+            <Button Content="Оформить" Command="{Binding CreateOrder}"/>
+        </StackPanel>
+    </Grid>
 </UserControl>

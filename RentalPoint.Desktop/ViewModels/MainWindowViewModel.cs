@@ -15,13 +15,22 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand OpenOrderPage { get; private set; }
     public ICommand OpenInventoryPage { get; private set; }
     public ICommand OpenEmployeePage { get; private set; }
+    public ICommand OpenCreateOrderPage { get; private set; }
 
     public MainWindowViewModel(
-        EmployeesPageViewModel employeesPageViewModel)
+        EmployeesPageViewModel employeesPageViewModel,
+        CreateOrderPageViewModel createOrderPageViewModel,
+        InventoryPageViewModel inventoryPageViewModel,
+        OrderInfoPageViewModel orderInfoPageViewModel,
+        OrderPageViewModel orderPageViewModel)
     {
         PaneItems =
         [
-            employeesPageViewModel
+            employeesPageViewModel,
+            createOrderPageViewModel,
+            inventoryPageViewModel,
+            orderInfoPageViewModel,
+            orderPageViewModel
         ];
         SelectedPageItem = PaneItems[0];
         
@@ -33,9 +42,11 @@ public class MainWindowViewModel : ViewModelBase
         OpenOrderPage = ReactiveCommand.Create(OpenOrderPageImpl);
         OpenInventoryPage = ReactiveCommand.Create(OpenInventoryPageImpl);
         OpenEmployeePage = ReactiveCommand.Create(OpenEmployeePageImpl);
+        OpenCreateOrderPage = ReactiveCommand.Create(OpenCreateOrderPageImpl);
     }
 
     private void OpenOrderPageImpl() => SelectedPageItem = PaneItems[0];
+    private void OpenCreateOrderPageImpl() => SelectedPageItem = PaneItems[1];
     private void OpenInventoryPageImpl() => SelectedPageItem = PaneItems[0];
     private void OpenEmployeePageImpl() => SelectedPageItem = PaneItems[0];
 }

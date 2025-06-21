@@ -7,10 +7,14 @@ namespace RentalPoint.Desktop.Views.Pages;
 
 public partial class OrderPageView : UserControl
 {
+    public OrderPageView()
+    {
+        InitializeComponent();
+    }
+    
     public OrderPageView(
         OrderPageViewModel viewModel)
     {
-        InitializeComponent();
         DataContext = viewModel;
     }
 }

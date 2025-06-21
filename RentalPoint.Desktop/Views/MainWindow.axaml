@@ -24,6 +24,13 @@
                         Background="Transparent"
                         Height="30" Margin="5" Padding="2"/>
                 
+                <Button Content="Новый заказ" Command="{Binding OpenCreateOrderPage}" 
+                        HorizontalContentAlignment="Center" 
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Background="Transparent"
+                        Height="30" Margin="5" Padding="2"/>
+                
                 <Button Content="Инвентарь" HorizontalContentAlignment="Center" 
                         VerticalContentAlignment="Center"
                         HorizontalAlignment="Stretch"
