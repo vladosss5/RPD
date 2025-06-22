@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DynamicData;
 using Microsoft.EntityFrameworkCore;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
@@ -47,16 +48,28 @@ public class CreateOrderPageViewModel : PageViewModelBase
 
     private async Task InitialyzeData()
     {
-        CurrentDateTime = DateTime.Now;
-        NewOrder.StartDate = DateTime.Now;
+        var inventories = await _context.Inventories
+            .Include(x => x.Status)
+            .Include(x => x.Type)
+            .ToListAsync();
         
-        var inventories = await _context.Inventories.ToListAsync();
         Inventories = new ObservableCollection<Inventory>(inventories);
+        
+        var removingInventory = Inventories.Where(x => x.Selected).ToList();
+        if (removingInventory.Any())
+            Inventories.RemoveMany(removingInventory);
+        
+        NewClient = new Client();
+        Deposit = new Deposit();
+        NewOrder = new Order();
         
         var documentTypes = await _context.DictionaryValues
             .Where(x=> x.DictionaryId == "deposit_documents")
             .ToListAsync();
         DocumentTypes = new ObservableCollection<DictionaryValue>(documentTypes);
+        
+        CurrentDateTime = DateTime.Now;
+        NewOrder.StartDate = DateTime.Now;
     }
 
     private async Task CreateOrderImpl()
@@ -96,5 +109,7 @@ public class CreateOrderPageViewModel : PageViewModelBase
         await MessageBoxManager
             .GetMessageBoxStandard("Успех", "Заказ сохранён", ButtonEnum.Ok, Icon.Success)
             .ShowAsync();
+
+        await InitialyzeData();
     }
 }
