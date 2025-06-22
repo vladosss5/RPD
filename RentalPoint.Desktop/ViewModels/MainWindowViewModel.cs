@@ -16,13 +16,15 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand OpenInventoryPage { get; private set; }
     public ICommand OpenEmployeePage { get; private set; }
     public ICommand OpenCreateOrderPage { get; private set; }
+    public ICommand OpenMyProfilePage { get; private set; }
 
     public MainWindowViewModel(
         EmployeesPageViewModel employeesPageViewModel,
         CreateOrderPageViewModel createOrderPageViewModel,
         InventoryPageViewModel inventoryPageViewModel,
         OrderInfoPageViewModel orderInfoPageViewModel,
-        OrderPageViewModel orderPageViewModel)
+        OrderPageViewModel orderPageViewModel,
+        MyProfilePageViewModel myProfilePageViewModel)
     {
         PaneItems =
         [
@@ -30,7 +32,8 @@ public class MainWindowViewModel : ViewModelBase
             createOrderPageViewModel,
             inventoryPageViewModel,
             orderInfoPageViewModel,
-            orderPageViewModel
+            orderPageViewModel,
+            myProfilePageViewModel
         ];
         SelectedPageItem = PaneItems[0];
         
@@ -43,10 +46,12 @@ public class MainWindowViewModel : ViewModelBase
         OpenInventoryPage = ReactiveCommand.Create(OpenInventoryPageImpl);
         OpenEmployeePage = ReactiveCommand.Create(OpenEmployeePageImpl);
         OpenCreateOrderPage = ReactiveCommand.Create(OpenCreateOrderPageImpl);
+        OpenMyProfilePage = ReactiveCommand.Create(OpenMyProfilePageImpl);
     }
-
-    private void OpenOrderPageImpl() => SelectedPageItem = PaneItems[0];
-    private void OpenCreateOrderPageImpl() => SelectedPageItem = PaneItems[1];
-    private void OpenInventoryPageImpl() => SelectedPageItem = PaneItems[0];
+    
     private void OpenEmployeePageImpl() => SelectedPageItem = PaneItems[0];
+    private void OpenCreateOrderPageImpl() => SelectedPageItem = PaneItems[1];
+    private void OpenInventoryPageImpl() => SelectedPageItem = PaneItems[2];
+    private void OpenOrderPageImpl() => SelectedPageItem = PaneItems[4];
+    private void OpenMyProfilePageImpl() => SelectedPageItem = PaneItems[5];
 }

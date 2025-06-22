@@ -42,6 +42,12 @@
                         HorizontalAlignment="Stretch"
                         Height="30" Margin="5"
                         Command="{Binding OpenEmployeePage}"/>
+                
+                <Button Content="Профиль" HorizontalContentAlignment="Center" 
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Height="30" Margin="5"
+                        Command="{Binding OpenMyProfilePage}"/>
             </StackPanel>
         </Border>
         
