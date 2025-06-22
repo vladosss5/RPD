@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using RentalPoint.Data;
@@ -14,6 +16,8 @@ namespace RentalPoint.Desktop.ViewModels.Pages;
 public class CreateOrderPageViewModel : PageViewModelBase
 {
     private readonly DataContext _context;
+    
+    private Employee _currentEmployee; 
     
     [Reactive] public ObservableCollection<Inventory> Inventories { get; set; }
     [Reactive] public ObservableCollection<DictionaryValue> DocumentTypes { get; set; }
@@ -33,6 +37,12 @@ public class CreateOrderPageViewModel : PageViewModelBase
 
         InitialyzeData();
         
+        MessageBus.Current
+            .Listen<Employee>("CurrentAuth")
+            .Subscribe(x => 
+            {
+                _currentEmployee = x;
+            });
     }
 
     private async Task InitialyzeData()
@@ -78,9 +88,13 @@ public class CreateOrderPageViewModel : PageViewModelBase
         NewOrder.DepositId = Deposit.Id;
 
         NewOrder.StatusId = "os_decorated";
-        NewOrder.EmployeeId = "7f776f28-9d56-43a6-87c6-55923a46fc95";
+        NewOrder.EmployeeId = _currentEmployee.Id;
         
         await _context.Orders.AddAsync(NewOrder);
         await _context.SaveChangesAsync();
+        
+        await MessageBoxManager
+            .GetMessageBoxStandard("Успех", "Заказ сохранён", ButtonEnum.Ok, Icon.Success)
+            .ShowAsync();
     }
 }
