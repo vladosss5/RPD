@@ -1,12 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using RentalPoint.Data;
-using RentalPoint.Desktop.ViewModels;
-using RentalPoint.Desktop.Views;
 
 namespace RentalPoint.Desktop;
 

@@ -59,12 +59,14 @@
         </StackPanel>
         
         <StackPanel Grid.Row="3" Margin="10">
+            <TextBox Watermark="Комментарий" Text="{Binding NewOrder.Comment}"/>
+            
             <StackPanel Orientation="Horizontal" Margin="5">
                 <CalendarDatePicker 
                     DisplayDateStart="{Binding CurrentDateTime.Date}" 
-                    SelectedDate="{Binding Order.StartDate.Date}"/>
+                    SelectedDate="{Binding NewOrder.StartDate.Date}"/>
                 
-                <TimePicker SelectedTime="{Binding Order.StartDate.TimeOfDay}"/>
+                <TimePicker SelectedTime="{Binding NewOrder.StartDate.TimeOfDay}"/>
             </StackPanel>
             
             <Button Content="Оформить" Command="{Binding CreateOrder}"/>

@@ -19,7 +19,7 @@ public class CreateOrderPageViewModel : PageViewModelBase
     [Reactive] public ObservableCollection<DictionaryValue> DocumentTypes { get; set; }
     [Reactive] public Client NewClient { get; set; } = new();
     [Reactive] public Deposit Deposit { get; set; } = new();
-    [Reactive] public Order Order { get; set; } = new();
+    [Reactive] public Order NewOrder { get; set; } = new();
     
     public ICommand CreateOrder { get; private set; }
     
@@ -38,7 +38,7 @@ public class CreateOrderPageViewModel : PageViewModelBase
     private async Task InitialyzeData()
     {
         CurrentDateTime = DateTime.Now;
-        Order.StartDate = DateTime.Now;
+        NewOrder.StartDate = DateTime.Now;
         
         var inventories = await _context.Inventories.ToListAsync();
         Inventories = new ObservableCollection<Inventory>(inventories);
@@ -51,9 +51,36 @@ public class CreateOrderPageViewModel : PageViewModelBase
 
     private async Task CreateOrderImpl()
     {
-        _context.Attach(NewClient);
-        Order.Client = NewClient;
+        NewOrder.Id = Guid.NewGuid().ToString();
+        NewClient.Id = Guid.NewGuid().ToString();
+        Deposit.Id = Guid.NewGuid().ToString();
+        
+        _context.Add(NewClient);
+        NewOrder.ClientId = NewClient.Id;
 
+        var orderInventories = Inventories
+            .Where(x => x.Selected)
+            .Select(x => new OrderInventory
+            {
+                Id = Guid.NewGuid().ToString(),
+                OrderId = NewOrder.Id,
+                InventoryId = x.Id
+            })
+            .ToList();
+
+        foreach (var inventory in Inventories.Where(x => x.Selected))
+            inventory.StatusId = "is_rental";
+        
+        await _context.AddRangeAsync(orderInventories);
+        NewOrder.OrderInventories = orderInventories;
+        
+        await _context.AddAsync(Deposit);
+        NewOrder.DepositId = Deposit.Id;
+
+        NewOrder.StatusId = "os_decorated";
+        NewOrder.EmployeeId = "7f776f28-9d56-43a6-87c6-55923a46fc95";
+        
+        await _context.Orders.AddAsync(NewOrder);
         await _context.SaveChangesAsync();
     }
 }

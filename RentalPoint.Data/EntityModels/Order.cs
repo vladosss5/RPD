@@ -10,7 +10,7 @@ public class Order
     public DateTime StartDate { get; set; }
     
     /// <summary>
-    ///     Окнчание заказа
+    ///     Окончание заказа
     /// </summary>
     public DateTime EndDate { get; set; }
     

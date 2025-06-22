@@ -2,6 +2,8 @@ namespace RentalPoint.Data.EntityModels;
 
 public class OrderInventory
 {
+    public string Id { get; set; }
+    
     /// <summary>
     ///     Идентификатор заказа.
     /// </summary>

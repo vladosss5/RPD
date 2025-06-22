@@ -9,7 +9,6 @@ using RentalPoint.Desktop.Views;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using HotAvalonia;
 using RentalPoint.Desktop.Services.Implementations;
 using RentalPoint.Desktop.Services.Interfaces;
 using RentalPoint.Desktop.ViewModels.Pages;
@@ -23,15 +22,12 @@ public partial class App : Application
 
     public override void Initialize()
     {
-        this.EnableHotReload();
         AvaloniaXamlLoader.Load(this);
     }
 
     public override async void OnFrameworkInitializationCompleted()
     {
         _serviceProvider = ConfigureServices();
-        
-        await ApplyMigrationsAsync(_serviceProvider);
         
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -75,21 +71,5 @@ public partial class App : Application
         services.AddTransient<OrderPageView>();
         
         return services.BuildServiceProvider();
-    }
-
-    private static async Task ApplyMigrationsAsync(IServiceProvider serviceProvider)
-    {
-        using var scope = serviceProvider.CreateScope();
-        var services = scope.ServiceProvider;
-            
-        try
-        {
-            var context = services.GetRequiredService<DataContext>();
-            await context.Database.MigrateAsync();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка миграции БД: {ex.Message}");
-        }
     }
 }

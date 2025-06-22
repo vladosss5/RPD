@@ -15,6 +15,9 @@ public class DataContext : DbContext
     /// </summary>
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
     
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //     => optionsBuilder.UseSqlite($"Data Source=C:\\Users\\VPC\\Documents\\RentalPoint.Desktop\\RentalPoint.Data\\DataBase.sqlite");
+    
     public DbSet<Client> Clients { get; set; }
     public DbSet<Deposit> Deposits { get; set; }
     public DbSet<Dictionary> Dictionaries { get; set; }
@@ -24,73 +27,73 @@ public class DataContext : DbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderInventory> OrderInventories { get; set; }
     
-     protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Deposit>(entity =>
         {
-            modelBuilder.Entity<Deposit>(entity =>
-            {
-                entity.Property(e => e.IsReturned)
-                    .HasDefaultValue(false);
-                entity.Property(e => e.DepositDate)
-                    .HasColumnType("datetime");
-                entity.Property(e => e.ReturnDate)
-                    .HasColumnType("datetime");
-            });
+            entity.Property(e => e.IsReturned)
+                .HasDefaultValue(false);
+            entity.Property(e => e.DepositDate)
+                .HasColumnType("datetime");
+            entity.Property(e => e.ReturnDate)
+                .HasColumnType("datetime");
+        });
 
-            modelBuilder.Entity<Employee>(entity =>
-            {
-                entity.Property(e => e.IsActive)
-                    .HasDefaultValue(true);
-            });
+        modelBuilder.Entity<Employee>(entity =>
+        {
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true);
+        });
 
-            modelBuilder.Entity<Order>(entity =>
-            {
-                entity.Property(e => e.EndDate)
-                    .HasColumnType("datetime");
-                entity.Property(e => e.Comment)
-                    .HasMaxLength(500);
-            });
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.Property(e => e.EndDate)
+                .HasColumnType("datetime");
+            entity.Property(e => e.Comment)
+                .HasMaxLength(500);
+        });
 
-            modelBuilder.Entity<Inventory>(entity =>
-            {
-                entity.Property(e => e.Description)
-                    .HasMaxLength(1000);
-            });
+        modelBuilder.Entity<Inventory>(entity =>
+        {
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000);
+        });
 
-            // Настройка связей и ключей
-            modelBuilder.Entity<OrderInventory>()
-                .HasKey(oi => new { oi.OrderId, oi.InventoryId });
+        // Настройка связей и ключей
+        modelBuilder.Entity<OrderInventory>()
+            .HasKey(oi => oi.Id);
 
-            modelBuilder.Entity<OrderInventory>()
-                .HasOne(oi => oi.Order)
-                .WithMany(o => o.OrderInventories)
-                .HasForeignKey(oi => oi.OrderId);
+        modelBuilder.Entity<OrderInventory>()
+            .HasOne(oi => oi.Order)
+            .WithMany(o => o.OrderInventories)
+            .HasForeignKey(oi => oi.OrderId);
 
-            modelBuilder.Entity<OrderInventory>()
-                .HasOne(oi => oi.Inventory)
-                .WithMany(i => i.OrderInventories)
-                .HasForeignKey(oi => oi.InventoryId);
+        modelBuilder.Entity<OrderInventory>()
+            .HasOne(oi => oi.Inventory)
+            .WithMany(i => i.OrderInventories)
+            .HasForeignKey(oi => oi.InventoryId);
 
-            modelBuilder.Entity<DictionaryValue>()
-                .HasOne(dv => dv.Dictionary)
-                .WithMany(d => d.DictionaryValues)
-                .HasForeignKey(dv => dv.DictionaryId);
+        modelBuilder.Entity<DictionaryValue>()
+            .HasOne(dv => dv.Dictionary)
+            .WithMany(d => d.DictionaryValues)
+            .HasForeignKey(dv => dv.DictionaryId);
 
-            modelBuilder.Entity<Inventory>()
-                .HasOne(i => i.Type)
-                .WithMany()
-                .HasForeignKey(i => i.TypeId)
-                .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Inventory>()
+            .HasOne(i => i.Type)
+            .WithMany()
+            .HasForeignKey(i => i.TypeId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Inventory>()
-                .HasOne(i => i.Status)
-                .WithMany()
-                .HasForeignKey(i => i.StatusId)
-                .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Inventory>()
+            .HasOne(i => i.Status)
+            .WithMany()
+            .HasForeignKey(i => i.StatusId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.Status)
-                .WithMany()
-                .HasForeignKey(o => o.StatusId)
-                .OnDelete(DeleteBehavior.Restrict);
-        }
+        modelBuilder.Entity<Order>()
+            .HasOne(o => o.Status)
+            .WithMany()
+            .HasForeignKey(o => o.StatusId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
 }
