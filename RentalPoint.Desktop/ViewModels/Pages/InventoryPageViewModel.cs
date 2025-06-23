@@ -56,8 +56,6 @@ public class InventoryPageViewModel : PageViewModelBase
 
     private void OpenInventoryInfoPageImpl(Inventory inventory)
     {
-        var mainWindow = _provider.GetRequiredService<MainWindowViewModel>();
-        mainWindow.OpenOtherPage(6);
         MessageBus.Current.SendMessage(inventory, "SelectedInventory");
     }
     

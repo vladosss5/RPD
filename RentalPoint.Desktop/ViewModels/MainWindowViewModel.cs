@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using RentalPoint.Data.EntityModels;
 using RentalPoint.Desktop.ViewModels.Pages;
 using RentalPoint.Desktop.Views.Pages;
 
@@ -41,6 +43,13 @@ public class MainWindowViewModel : ViewModelBase
         SelectedPageItem = PaneItems[0];
         
         InitialButtons();
+        
+        MessageBus.Current
+            .Listen<Inventory>("SelectedInventory")
+            .Subscribe(x => 
+            {
+                SelectedPageItem = PaneItems[6];
+            });
     }
     
     public void OpenOtherPage(int pageNumber) => SelectedPageItem = PaneItems[pageNumber];
