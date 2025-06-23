@@ -1,8 +1,10 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using RentalPoint.Data;
@@ -13,7 +15,7 @@ namespace RentalPoint.Desktop.ViewModels.Pages;
 public class InventoryPageViewModel : PageViewModelBase
 {
     private readonly DataContext _context;
-    private readonly MainWindowViewModel _mainWindow;
+    private readonly IServiceProvider _provider;
     
     [Reactive] public ObservableCollection<Inventory> Inventories { get; set; }
     [Reactive] public ObservableCollection<DictionaryValue> InventoryTypes { get; set; }
@@ -24,12 +26,12 @@ public class InventoryPageViewModel : PageViewModelBase
     public ReactiveCommand<Unit, Unit> AddInventory { get; private set; }
 
     public InventoryPageViewModel(
-        DataContext context, 
-        MainWindowViewModel mainWindow)
+        DataContext context,
+        IServiceProvider provider)
     {
         _context = context;
-        _mainWindow = mainWindow;
-        
+        _provider = provider;
+
         InitialButtons();
         InitialData();
     }
@@ -54,7 +56,8 @@ public class InventoryPageViewModel : PageViewModelBase
 
     private void OpenInventoryInfoPageImpl(Inventory inventory)
     {
-        _mainWindow.OpenOtherPage(6);
+        var mainWindow = _provider.GetRequiredService<MainWindowViewModel>();
+        mainWindow.OpenOtherPage(6);
         MessageBus.Current.SendMessage(inventory, "SelectedInventory");
     }
     

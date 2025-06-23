@@ -10,14 +10,9 @@ public class InventoryInfoPageViewModel : PageViewModelBase
     [Reactive] public Inventory CurrentInventory { get; set; }
     public InventoryInfoPageViewModel()
     {
-        InitialButtons();
         InitialData();
     }
 
-    private void InitialButtons()
-    {
-        throw new System.NotImplementedException();
-    }
 
     private void InitialData()
     {
