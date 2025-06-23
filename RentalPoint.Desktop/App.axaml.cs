@@ -61,6 +61,7 @@ public partial class App : Application
         services.AddTransient<OrderInfoPageViewModel>();
         services.AddTransient<OrderPageViewModel>();
         services.AddTransient<MyProfilePageViewModel>();
+        services.AddTransient<InventoryInfoPageViewModel>();
         
         // Views
         services.AddTransient<AuthorizationWindow>();
@@ -71,6 +72,7 @@ public partial class App : Application
         services.AddTransient<OrderInfoPageView>();
         services.AddTransient<OrderPageView>();
         services.AddTransient<MyProfilePageView>();
+        services.AddTransient<InventoryInfoPageView>();
         
         return services.BuildServiceProvider();
     }

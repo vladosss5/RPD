@@ -39,6 +39,8 @@ public class MainWindowViewModel : ViewModelBase
         
         InitialButtons();
     }
+    
+    public void OpenOtherPage(int pageNumber) => SelectedPageItem = PaneItems[pageNumber];
 
     private void InitialButtons()
     {
