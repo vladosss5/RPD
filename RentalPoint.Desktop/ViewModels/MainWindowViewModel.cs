@@ -3,12 +3,13 @@ using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using RentalPoint.Desktop.ViewModels.Pages;
+using RentalPoint.Desktop.Views.Pages;
 
 namespace RentalPoint.Desktop.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public ObservableCollection<PageViewModelBase> PaneItems { get; set; }
+    public ObservableCollection<PageViewModelBase> PaneItems { get; private set; }
     
     [Reactive] public PageViewModelBase SelectedPageItem { get; set; }
     
@@ -24,7 +25,8 @@ public class MainWindowViewModel : ViewModelBase
         InventoryPageViewModel inventoryPageViewModel,
         OrderInfoPageViewModel orderInfoPageViewModel,
         OrderPageViewModel orderPageViewModel,
-        MyProfilePageViewModel myProfilePageViewModel)
+        MyProfilePageViewModel myProfilePageViewModel,
+        InventoryInfoPageViewModel inventoryInfoPageViewModel)
     {
         PaneItems =
         [
@@ -33,7 +35,8 @@ public class MainWindowViewModel : ViewModelBase
             inventoryPageViewModel,
             orderInfoPageViewModel,
             orderPageViewModel,
-            myProfilePageViewModel
+            myProfilePageViewModel,
+            inventoryInfoPageViewModel
         ];
         SelectedPageItem = PaneItems[0];
         

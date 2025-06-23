@@ -52,9 +52,10 @@ public class InventoryPageViewModel : PageViewModelBase
         AddInventory = ReactiveCommand.Create(AddInventoryImpl);
     }
 
-    private void OpenInventoryInfoPageImpl(Inventory obj)
+    private void OpenInventoryInfoPageImpl(Inventory inventory)
     {
         _mainWindow.OpenOtherPage(6);
+        MessageBus.Current.SendMessage(inventory, "SelectedInventory");
     }
     
     private void AddInventoryImpl()
