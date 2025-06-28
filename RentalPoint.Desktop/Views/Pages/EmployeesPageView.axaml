@@ -28,6 +28,19 @@
                                                         Command="{Binding #UserList.((pages:EmployeesPageViewModel)DataContext).DeactivateEmployee}" 
                                                         CommandParameter="{Binding }"
                                                         CornerRadius="50">
+                                                        <Image Height="15" Width="15" Source="/Assets/Dismiss.png"/>
+                                                </Button>
+                                        </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                                <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                        Background="Transparent"
+                                                        Command="{Binding #UserList.((pages:EmployeesPageViewModel)DataContext).DeleteEmployee}" 
+                                                        CommandParameter="{Binding }"
+                                                        CornerRadius="50">
                                                         <Image Height="15" Width="15" Source="/Assets/delete.png"/>
                                                 </Button>
                                         </DataTemplate>

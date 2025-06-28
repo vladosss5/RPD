@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RentalPoint.Data.EntityModels;
 
-public class Inventory
+public class Inventory : SoftDelete
 {
     /// <summary>
     ///     Идентификатор.

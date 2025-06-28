@@ -16,7 +16,7 @@ public class DataContext : DbContext
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
     
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //     => optionsBuilder.UseSqlite($"Data Source=C:\\Users\\VPC\\Documents\\RentalPoint.Desktop\\RentalPoint.Data\\DataBase.sqlite");
+    //     => optionsBuilder.UseSqlite($"Data Source=C:\\Users\\VPC\\Documents\\Projects\\RentalPoint.Desktop\\RentalPoint.Data\\DataBase.sqlite");
     
     public DbSet<Client> Clients { get; set; }
     public DbSet<Deposit> Deposits { get; set; }

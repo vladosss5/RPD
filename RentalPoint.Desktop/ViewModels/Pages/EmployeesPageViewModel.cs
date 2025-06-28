@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using DynamicData;
 using Microsoft.EntityFrameworkCore;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using RentalPoint.Data;
@@ -27,6 +29,7 @@ public class EmployeesPageViewModel : PageViewModelBase
 
     public ICommand AddEmployee { get; private set; }
     public ReactiveCommand<Employee, Unit> DeactivateEmployee { get; private set; }
+    public ReactiveCommand<Employee, Unit> DeleteEmployee { get; private set; }
 
     public EmployeesPageViewModel(
         DataContext context,
@@ -42,7 +45,7 @@ public class EmployeesPageViewModel : PageViewModelBase
     private async Task InitialDataAsync()
     {
         var employeesList = await _context.Employees
-            .Where(x => x.IsActive == true)
+            .Where(x => x.IsDeleted == false)
             .ToListAsync();
         Employees = new ObservableCollection<Employee>(employeesList);
 
@@ -55,7 +58,8 @@ public class EmployeesPageViewModel : PageViewModelBase
     private void InitialButtons()
     {
         AddEmployee = ReactiveCommand.Create(AddEmployeeImpl);
-        DeactivateEmployee = ReactiveCommand.Create<Employee>(DeactivateEmployeeImpl);
+        DeactivateEmployee = ReactiveCommand.CreateFromTask<Employee>(DeactivateEmployeeAsync);
+        DeleteEmployee = ReactiveCommand.CreateFromTask<Employee>(DeleteEmployeeAsync);
     }
 
     private async Task AddEmployeeImpl()
@@ -66,8 +70,27 @@ public class EmployeesPageViewModel : PageViewModelBase
         await _context.SaveChangesAsync();
     }
 
-    private void DeactivateEmployeeImpl(Employee epmloyee)
+    private async Task DeactivateEmployeeAsync(Employee employee)
     {
-        throw new NotImplementedException();
+        employee.IsActive = false;
+        _context.Attach(employee);
+        await _context.SaveChangesAsync();
+        
+        await MessageBoxManager
+            .GetMessageBoxStandard("Успех", "Сотрудник заблокирован", ButtonEnum.Ok)
+            .ShowAsync();
+    }
+    
+    private async Task DeleteEmployeeAsync(Employee employee)
+    {
+        employee.IsDeleted = true;
+        _context.Attach(employee);
+        await _context.SaveChangesAsync();
+
+        Employees.Remove(employee);
+        
+        await MessageBoxManager
+            .GetMessageBoxStandard("Успех", "Сотрудник удалён", ButtonEnum.Ok)
+            .ShowAsync();
     }
 }

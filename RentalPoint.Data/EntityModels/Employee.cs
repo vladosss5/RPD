@@ -1,6 +1,6 @@
 namespace RentalPoint.Data.EntityModels;
 
-public class Employee
+public class Employee : SoftDelete
 {
     public string Id { get; set; }
     

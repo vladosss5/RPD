@@ -28,8 +28,8 @@ public class AuthorizationService : IAuthorizationService
 
         var employee = await _context.Employees
             .Include(e => e.Role)
-            .FirstOrDefaultAsync(e => e.Login == login);
-
+            .FirstOrDefaultAsync(e => e.Login == login && e.IsActive && !e.IsDeleted);
+        
         if (employee == null || !employee.IsActive)
             return null;
 
