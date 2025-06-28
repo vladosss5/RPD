@@ -51,7 +51,7 @@ public class InventoryPageViewModel : PageViewModelBase
     private void InitialButtons()
     {
         OpenInventoryInfoPage = ReactiveCommand.Create<Inventory>(OpenInventoryInfoPageImpl);
-        AddInventory = ReactiveCommand.Create(AddInventoryImpl);
+        AddInventory = ReactiveCommand.CreateFromTask(AddInventoryImpl);
     }
 
     private void OpenInventoryInfoPageImpl(Inventory inventory)
@@ -59,8 +59,16 @@ public class InventoryPageViewModel : PageViewModelBase
         MessageBus.Current.SendMessage(inventory, "SelectedInventory");
     }
     
-    private void AddInventoryImpl()
+    private async Task AddInventoryImpl()
     {
-        throw new System.NotImplementedException();
+        NewInventory.Id = Guid.NewGuid().ToString();
+
+        var defaultStatus = await _context.DictionaryValues.FindAsync("is_free");
+        NewInventory.Status = defaultStatus;
+
+        await _context.AddAsync(NewInventory);
+        await _context.SaveChangesAsync();
+        
+        Inventories.Add(NewInventory);
     }
 }

@@ -22,22 +22,22 @@ public class Inventory
     /// <summary>
     ///     Тип инвентаря.
     /// </summary>
-    public DictionaryValue Type { get; set; } = null!;
+    public DictionaryValue? Type { get; set; }
     
     /// <summary>
     ///     Идентификатор типа.
     /// </summary>
-    public string TypeId { get; set; }
+    public string? TypeId { get; set; }
     
     /// <summary>
     ///     Статус.
     /// </summary>
-    public DictionaryValue Status { get; set; } = null!;
+    public DictionaryValue? Status { get; set; }
     
     /// <summary>
     ///     Идентификатор статуса.
     /// </summary>
-    public string StatusId { get; set; }
+    public string? StatusId { get; set; }
     
     /// <summary>
     ///     Коллекция связей с заказом.

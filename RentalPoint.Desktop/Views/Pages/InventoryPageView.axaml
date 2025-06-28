@@ -39,11 +39,11 @@
         <StackPanel Grid.Column="1">
                 <TextBlock Text="Добавить инвентарь" Margin="5" FontSize="36" 
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBox Watermark="Логин" Text="{Binding NewInventory.Name}" 
+                <TextBox Watermark="Название" Text="{Binding NewInventory.Name}" 
                          Margin="5" HorizontalAlignment="Stretch"/>
-                <TextBox Watermark="Имя" Text="{Binding NewInventory.PricePerHour}" 
+                <TextBox Watermark="Стоимость в час" Text="{Binding NewInventory.PricePerHour}" 
                          Margin="5" HorizontalAlignment="Stretch"/>
-                <TextBox Watermark="Фамилия" Text="{Binding NewInventory.Description}" 
+                <TextBox Watermark="Описание" Text="{Binding NewInventory.Description}" 
                          Margin="5" HorizontalAlignment="Stretch"/>
                 <TextBlock Text="Выберите тип: " Margin="5" FontSize="14" 
                            HorizontalAlignment="Left" VerticalAlignment="Center"/>
