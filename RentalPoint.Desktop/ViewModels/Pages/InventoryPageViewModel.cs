@@ -56,7 +56,7 @@ public class InventoryPageViewModel : PageViewModelBase
 
     private void OpenInventoryInfoPageImpl(Inventory inventory)
     {
-        MessageBus.Current.SendMessage(inventory, "SelectedInventory");
+        MessageBus.Current.SendMessage(inventory.Id, "SelectedInventoryId");
     }
     
     private async Task AddInventoryImpl()

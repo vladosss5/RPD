@@ -12,6 +12,32 @@
     </Design.DataContext>
     
     <StackPanel>
-        <TextBox Text="{Binding CurrentInventory.Name}"/>
+        <TextBox Text="{Binding CurrentInventory.Name}" Margin="5"/>
+        
+        <TextBox Text="{Binding CurrentInventory.PricePerHour}" Margin="5"/>
+        
+        <TextBox Text="{Binding CurrentInventory.Description}" Margin="5"/>
+        
+        <ListBox ItemsSource="{Binding InventoryTypes}"
+                 SelectedItem="{Binding CurrentInventory.Type}"
+                 SelectionMode="Single" Margin="5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Value}" Padding="5"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <ListBox ItemsSource="{Binding InventoryStatuses}"
+                 SelectedItem="{Binding CurrentInventory.Status}"
+                 SelectionMode="Single" Margin="5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Value}" Padding="5"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <Button Content="Сохранить редактирование" Command="{Binding SaveChanges}"/>
     </StackPanel>
 </UserControl>

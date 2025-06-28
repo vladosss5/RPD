@@ -45,7 +45,7 @@ public class MainWindowViewModel : ViewModelBase
         InitialButtons();
         
         MessageBus.Current
-            .Listen<Inventory>("SelectedInventory")
+            .Listen<string>("SelectedInventoryId")
             .Subscribe(x => 
             {
                 SelectedPageItem = PaneItems[6];
